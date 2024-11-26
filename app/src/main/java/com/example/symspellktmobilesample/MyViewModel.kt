@@ -24,14 +24,14 @@ class MyViewModel : ViewModel() {
     private val _loadingState = MutableStateFlow(false)
     val loadingState = _loadingState.asStateFlow()
 
-    var _totalLinesUnigram = MutableStateFlow<Int>(80000)
+    private var _totalLinesUnigram = MutableStateFlow<Int>(80000)
     val totalLinesUnigram = _totalLinesUnigram.asStateFlow()
-    var _currentLineUnigram = MutableStateFlow<Int>(0)
+    private var _currentLineUnigram = MutableStateFlow<Int>(0)
     val currentLineUnigram = _currentLineUnigram.asStateFlow()
 
-    var _totalLinesBigram = MutableStateFlow<Int>(242342)
+    private var _totalLinesBigram = MutableStateFlow<Int>(242342)
     val totalLinesBigram = _totalLinesBigram.asStateFlow()
-    var _currentLineBigram = MutableStateFlow<Int>(0)
+    private var _currentLineBigram = MutableStateFlow<Int>(0)
     val currentLineBigram = _currentLineBigram.asStateFlow()
 
 
