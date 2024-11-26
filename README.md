@@ -7,11 +7,13 @@ mobile adaptation of the Kotlin mutli platform sample `SymSpellKt` by `Wavesonic
 This project is for Jetpack Compose initiated user
 
 ## Presentation
-Simple mobile adaptation of the sample of [SymSpellKt](https://github.com/Wavesonics/SymSpellKt/)
+[SymSpellKt](https://github.com/Wavesonics/SymSpellKt/) for Kotlin by `Wavesonics` is an adaptation of [customized-symspell](https://github.com/MighTguY/customized-symspell) for Java by `MighTguY` itself an adaptation of [SymSpell](https://github.com/wolfgarbe/symspell) by `wolfgarbe`.
+
+This Jetpack Compose Kotlin sample shows the way to make spell corrections for single words and sentences by using the library `SymSpellKt`. Like its parent libraries it works with 2 .txt english dictionaries. Other dictionaries of different language can be added afterwards if needed.
 
 ## Overview
 - 1 : loading dictionaries
 - 2 : use of the 2 dictionaries
 
-<img src="/app/screenshots/screen1.png" alt="loading dictionaries" height="400">&emsp;
-<img src="/app/screenshots/screen2.png" alt="use of the 2 dictionaries" height="400">
+<img src="/app/screenshots/screen1.png" alt="loading dictionaries" height="500">&emsp;
+<img src="/app/screenshots/screen2.png" alt="use of the 2 dictionaries" height="500">
