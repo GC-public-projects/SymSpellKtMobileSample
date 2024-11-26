@@ -1,2 +1,2 @@
 # SymSpellKtMobileSample
-mobile adaptation of the Kotlin mutli platforms projetc SymSpellKt  of Wavesonics
+mobile adaptation of the Kotlin mutli platform sample `SymSpellKt` by `Wavesonics`
