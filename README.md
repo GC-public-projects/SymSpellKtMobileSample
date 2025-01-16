@@ -15,5 +15,5 @@ This Jetpack Compose Kotlin sample shows the way to make spell corrections for s
 - 1 : loading dictionaries
 - 2 : use of the 2 dictionaries
 
-<img src="/app/screenshots/screen1.png" alt="loading dictionaries" height="500">&emsp;
-<img src="/app/screenshots/screen2.png" alt="use of the 2 dictionaries" height="500">
+<img src="/screenshots/screen1.png" alt="loading dictionaries" height="500">&emsp;
+<img src="/screenshots/screen2.png" alt="use of the 2 dictionaries" height="500">
