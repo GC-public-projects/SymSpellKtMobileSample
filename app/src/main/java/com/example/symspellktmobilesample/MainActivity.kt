@@ -38,10 +38,8 @@ class MainActivity : ComponentActivity() {
 
                 // progressing bar purpose values
                 val loading by viewModel.loadingState.collectAsStateWithLifecycle()
-                val totalLinesUnigram by viewModel.totalLinesUnigram.collectAsStateWithLifecycle()
-                val currentLineUnigram by viewModel.currentLineUnigram.collectAsStateWithLifecycle()
-                val totalLinesBigram by viewModel.totalLinesBigram.collectAsStateWithLifecycle()
-                val currentLineBigram by viewModel.currentLineBigram.collectAsStateWithLifecycle()
+                val progressionUnigram by viewModel.progressionUnigram.collectAsStateWithLifecycle()
+                val progressionBigram by viewModel.progressionBigram.collectAsStateWithLifecycle()
 
                 Column(
                     verticalArrangement = Arrangement.Center,
@@ -51,8 +49,8 @@ class MainActivity : ComponentActivity() {
                     if(loading) {
                         Column {
                             Text("Loading dictionaries...")
-                            Text("unigram : $currentLineUnigram / $totalLinesUnigram")
-                            Text("bigram : $currentLineBigram / $totalLinesBigram")
+                            Text("unigram : $progressionUnigram %")
+                            Text("bigram : $progressionBigram %")
                         }
 
                     } else {

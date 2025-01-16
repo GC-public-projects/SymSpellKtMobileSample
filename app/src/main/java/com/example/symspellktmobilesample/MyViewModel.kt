@@ -24,15 +24,13 @@ class MyViewModel : ViewModel() {
     private val _loadingState = MutableStateFlow(false)
     val loadingState = _loadingState.asStateFlow()
 
-    private var _totalLinesUnigram = MutableStateFlow<Int>(80000)
-    val totalLinesUnigram = _totalLinesUnigram.asStateFlow()
-    private var _currentLineUnigram = MutableStateFlow<Int>(0)
-    val currentLineUnigram = _currentLineUnigram.asStateFlow()
+    private var _totalLinesUnigram = 80000
+    private var _progressionUnigram = MutableStateFlow<Int>(0)
+    val progressionUnigram = _progressionUnigram.asStateFlow()
 
-    private var _totalLinesBigram = MutableStateFlow<Int>(242342)
-    val totalLinesBigram = _totalLinesBigram.asStateFlow()
-    private var _currentLineBigram = MutableStateFlow<Int>(0)
-    val currentLineBigram = _currentLineBigram.asStateFlow()
+    private var _totalLinesBigram = 242342
+    private var _progressionBigram = MutableStateFlow<Int>(0)
+    val progressionBigram = _progressionBigram.asStateFlow()
 
 
     fun initializeSpellChecker(context: Context) {
@@ -56,30 +54,75 @@ class MyViewModel : ViewModel() {
         }
     }
 
-    private suspend fun loadUnigramDictionary(context: Context, checker: SpellChecker) {
-        val assetManager = context.assets
-        withContext(Dispatchers.IO) {
-            assetManager.open("files/en-80k.txt").bufferedReader().useLines { lines ->
-                lines.forEach { line ->
-                    checker.dictionary.loadUniGramLine(line)
-                    _currentLineUnigram.value++
+private suspend fun loadUnigramDictionary(context: Context, checker: SpellChecker) {
+    val assetManager = context.assets
+    val progressInterval = _totalLinesUnigram / 100 // Update every 1%
+    var index = 0
+    withContext(Dispatchers.IO) {
+        assetManager.open("files/en-80k.txt").bufferedReader().use { reader ->
+            val batchSize = 1000
+            val batch = mutableListOf<String>()
+
+            reader.forEachLine{ line ->
+                batch.add(line)
+                if (batch.size >= batchSize) {
+                    batch.forEach {
+                        checker.dictionary.loadUniGramLine(it)
+                        index += 1
+                        if(index % progressInterval == 0) {
+                            _progressionUnigram.value += 1
+                        }
+                    }
+                    batch.clear()
+                }
+            }
+            // Process remaining lines
+            batch.forEach {
+                checker.dictionary.loadUniGramLine(it)
+                index += 1
+                if(index % progressInterval == 0) {
+                    _progressionUnigram.value += 1
                 }
             }
         }
     }
+}
 
     private suspend fun loadBigramDictionary(context: Context, checker: SpellChecker) {
         val assetManager = context.assets
+        val progressInterval = _totalLinesBigram/ 100 // Update every 1%
+        var index = 0
         withContext(Dispatchers.IO) {
             assetManager.open("files/frequency_bigramdictionary_en_243_342.txt").bufferedReader()
-                .useLines { lines ->
-                    lines.forEach { line ->
-                        checker.dictionary.loadBiGramLine(line)
-                        _currentLineBigram.value++
+                .use { reader ->
+                    val batchSize = 1000
+                    val batch = mutableListOf<String>()
+
+                    reader.forEachLine { line ->
+                        batch.add(line)
+                        if (batch.size >= batchSize) {
+                            batch.forEach {
+                                checker.dictionary.loadBiGramLine(it)
+                                index +=1
+                                if(index % progressInterval == 0) {
+                                    _progressionBigram.value += 1
+                                }
+                            }
+                            batch.clear()
+                        }
+                    }
+                    // Process remaining lines
+                    batch.forEach {
+                        checker.dictionary.loadBiGramLine(it)
+                        index +=1
+                        if(index % progressInterval == 0) {
+                            _progressionBigram.value += 1
+                        }
                     }
                 }
         }
     }
+
 
     fun getSuggestionsSingleWord(phrase: String): Pair<List<SuggestionItem>, Double> {
         val checker = _spellChecker.value ?: return emptyList<SuggestionItem>() to 0.0
